@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Language Tools</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#eef2f7;
+  height:100vh;
+  overflow:hidden;
+  color:#111827;
+}
+
+/* FIX DOCK UNDERLINE (NO HTML CHANGE) */
+.dock a{
+  text-decoration:none;
+  color:inherit;
+}
+
+/* CENTER CARD */
+.container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  padding-bottom:120px;
+}
+
+.card{
+  width:92%;
+  max-width:650px;
+  background:#fff;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* TABS */
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.tab{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#e5e7eb;
+  cursor:pointer;
+  font-weight:600;
+  font-size:12px;
+  transition:0.2s;
+}
+
+.tab.active{
+  background:#1f4fff;
+  color:white;
+  transform:translateY(-1px);
+}
+
+/* SECTIONS */
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+/* INPUT */
+textarea{
+  width:100%;
+  height:90px;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+  font-size:14px;
+  outline:none;
+  resize:none;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  margin-top:10px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#1f4fff;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#163be0;
+}
+
+/* RESULT BOX */
+.result{
+  margin-top:10px;
+  padding:12px;
+  background:#f3f4f6;
+  border-radius:12px;
+  min-height:40px;
+  font-weight:500;
+}
+
+/* EMERGENCY GRID */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.quick{
+  padding:12px;
+  border-radius:12px;
+  background:#ffe4e6;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  color:#9f1239;
+  transition:0.2s;
+}
+
+.quick:hover{
+  background:#fecdd3;
+  transform:scale(1.03);
+}
+
+/* COPY MESSAGE */
+#copyMsg{
+  margin-top:10px;
+  font-size:13px;
+  color:#16a34a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="openTab('en_nep', this)">English → Nepali</button>
+    <button class="tab" onclick="openTab('nep_en', this)">Nepali → English</button>
+    <button class="tab" onclick="openTab('emergency', this)">Emergency</button>
+  </div>
+
+  <!-- EN → NEP -->
+  <div id="en_nep" class="section active">
+    <textarea id="enInput" placeholder="Enter English text..."></textarea>
+    <button onclick="translateENtoNEP()">Translate</button>
+    <div class="result" id="enOutput">Result will appear here...</div>
+  </div>
+
+  <!-- NEP → EN -->
+  <div id="nep_en" class="section">
+    <textarea id="nepInput" placeholder="Enter Nepali (romanized)..."></textarea>
+    <button onclick="translateNEPtoEN()">Translate</button>
+    <div class="result" id="nepOutput">Result will appear here...</div>
+  </div>
+
+  <!-- EMERGENCY -->
+  <div id="emergency" class="section">
+    <h3>Emergency Quick Phrases</h3>
+
+    <div class="grid">
+      <button class="quick" onclick="copyText('Help me!')">Help me</button>
+      <button class="quick" onclick="copyText('Call police')">Police</button>
+      <button class="quick" onclick="copyText('I need a hospital')">Hospital</button>
+      <button class="quick" onclick="copyText('I am lost')">I am lost</button>
+      <button class="quick" onclick="copyText('Water please')">Water</button>
+      <button class="quick" onclick="copyText('Danger!')">Danger</button>
+    </div>
+
+    <p id="copyMsg"></p>
+  </div>
+
+</div>
+
+</div>
+
+<!-- DOCK (UNCHANGED EXACT STRUCTURE) -->
+<nav class="dock">
+
+  <a href="index.html" class="dock-btn"><i class="ri-home-5-line"></i><span>Home</span></a>
+
+  <a href="map.html" class="dock-btn"><i class="ri-map-pin-line"></i><span>Maps</span></a>
+
+  <button class="sos-btn">
+    <i class="ri-alarm-warning-fill"></i>
+  </button>
+
+  <a href="emergency.html" class="dock-btn"><i class="ri-first-aid-kit-line"></i><span>Emergency</span></a>
+
+  <a href="language.html" class="dock-btn active"><i class="ri-translate-2"></i><span>Language</span></a>
+
+</nav>
+
+<script src="js/lang.js"></script>
+
+</body>
+</html>
