@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Maps - Tourist Safety</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+
+<!-- YOUR GLOBAL CSS (contains dock styles) -->
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #eef2f7, #e6ecff);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+    padding: 16px;
+    gap: 16px;
+
+    /* IMPORTANT: space for dock */
+    padding-bottom: 120px;
+  }
+
+  /* LEFT PANEL */
+  .sidebar {
+    width: 340px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  }
+
+  .search-box {
+    display: flex;
+    gap: 8px;
+  }
+
+  .search-box input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+  }
+
+  .search-box button {
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    background: #3b5bff;
+    color: white;
+    cursor: pointer;
+  }
+
+  .weather {
+    background: #3b5bff;
+    color: white;
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  .weather h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .temp {
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 8px;
+  }
+
+  .weather-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+
+  /* MAP */
+  .map-wrapper {
+    flex: 1;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+
+    margin-top: 12px;
+    margin-bottom: 0px; /* IMPORTANT for dock spacing */
+  }
+
+  #map {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .sidebar {
+      width: 100%;
+    }
+
+    .map-wrapper {
+      height: 55vh;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="search-box">
+      <input id="searchBox" placeholder="Search city...">
+      <button onclick="searchPlace()">Go</button>
+    </div>
+
+    <div class="weather">
+      <h2 id="cityName">Kathmandu</h2>
+      <div class="temp" id="temp">22°C</div>
+
+      <div class="weather-info">
+        <div>🌦️ <span id="condition">Cloudy</span></div>
+        <div>💨 <span id="wind">6 km/h</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MAP -->
+  <div class="map-wrapper">
+    <div id="map"></div>
+  </div>
+
+</div>
+
+
+<!-- ================= YOUR GLOBAL DOCK (FROM style.css) ================= -->
+<nav class="dock">
+
+  <a href="index.html" class="dock-btn active" style="text-decoration: none;">
+    <i class="ri-home-5-line"></i>
+    <span>Home</span>
+  </a>
+
+  <a href="map.html" class="dock-btn" style="text-decoration: none;">
+    <i class="ri-map-pin-line"></i>
+    <span>Maps</span>
+  </a>
+
+  <button class="sos-btn">
+    <i class="ri-alarm-warning-fill"></i>
+  </button>
+
+  <a href="emergency.html" class="dock-btn" style="text-decoration: none;">
+    <i class="ri-first-aid-kit-line"></i>
+    <span>Emergency</span>
+  </a>
+
+  <a href="language.html" class="dock-btn" style="text-decoration: none;">
+    <i class="ri-translate-2"></i>
+    <span>Language</span>
+  </a>
+
+</nav>
+
+
+<!-- SCRIPTS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>

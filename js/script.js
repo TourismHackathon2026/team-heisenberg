@@ -1,27 +1,123 @@
+// ===================== EMERGENCY MENU =====================
 const emergencyButton = document.querySelector(".emergency-btn");
 const emergencyMenu = document.querySelector(".emergency-menu");
 
 let open = false;
 
-emergencyButton.onclick = () => {
+if (emergencyButton && emergencyMenu) {
 
+  emergencyButton.onclick = (e) => {
+    e.preventDefault();
     open = !open;
-
     emergencyMenu.style.display = open ? "flex" : "none";
+  };
 
+  document.addEventListener("click", (e) => {
+    if (
+      !emergencyButton.contains(e.target) &&
+      !emergencyMenu.contains(e.target)
+    ) {
+      emergencyMenu.style.display = "none";
+      open = false;
+    }
+  });
+
+}
+
+
+// ===================== OFFLINE WEATHER DATABASE =====================
+const weatherDB = {
+  kathmandu: {
+    city: "Kathmandu",
+    temp: 22,
+    condition: "Partly Cloudy",
+    wind: 6
+  },
+  pokhara: {
+    city: "Pokhara",
+    temp: 24,
+    condition: "Sunny",
+    wind: 4
+  },
+  chitwan: {
+    city: "Chitwan",
+    temp: 30,
+    condition: "Hot & Humid",
+    wind: 3
+  }
 };
 
-// Close popup when clicking outside
-document.addEventListener("click", (e) => {
 
-    if (
-        !emergencyButton.contains(e.target) &&
-        !emergencyMenu.contains(e.target)
-    ) {
+// ===================== UPDATE WEATHER UI =====================
+function updateWeatherUI(cityKey) {
 
-        emergencyMenu.style.display = "none";
-        open = false;
+  const data = weatherDB[cityKey];
 
-    }
+  if (!data) return;
 
+  document.getElementById("cityName").innerText = data.city;
+  document.getElementById("condition").innerText = data.condition;
+  document.getElementById("temp").innerText = data.temp + "°C";
+  document.getElementById("wind").innerText = data.wind + " km/h";
+}
+
+
+// ===================== MAP INIT =====================
+let map;
+let marker;
+
+if (document.getElementById("map")) {
+
+  map = L.map('map').setView([28.3949, 84.1240], 7);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+}
+
+
+// ===================== SEARCH PLACE =====================
+async function searchPlace() {
+
+  const input = document.getElementById("searchBox");
+  if (!input) return;
+
+  const query = input.value;
+  if (!query) return;
+
+  const res = await fetch(
+    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
+  );
+
+  const data = await res.json();
+
+  if (!data.length) return;
+
+  const lat = parseFloat(data[0].lat);
+  const lon = parseFloat(data[0].lon);
+
+  // zoom map
+  map.setView([lat, lon], 13, { animate: true });
+
+  // remove old marker
+  if (marker) {
+    map.removeLayer(marker);
+  }
+
+  marker = L.marker([lat, lon])
+    .addTo(map)
+    .bindPopup(data[0].display_name)
+    .openPopup();
+
+  // 🔥 UPDATE WEATHER UI ONLY (NO ALERT)
+  const cityKey = query.toLowerCase().split(" ")[0];
+  updateWeatherUI(cityKey);
+}
+
+
+// ===================== DEFAULT WEATHER =====================
+window.addEventListener("load", () => {
+  updateWeatherUI("kathmandu");
 });
