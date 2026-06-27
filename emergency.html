@@ -1,381 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>सहyatri - Emergency Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --card-border: rgba(255, 255, 255, 0.6);
-            --text-dark: #2d3748;
-            --text-muted: #718096;
-            
-            /* Emergency Colors */
-            --color-sos: #ff3b30;
-            --color-medical: #e53e3e;
-            --color-police: #1a73e8;
-            --color-fire: #dd6b20;
-            --color-mental: #805ad5;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<title>Emergency - Tourist Safety</title>
 
-        body {
-            background: var(--bg-gradient);
-            color: var(--text-dark);
-            min-height: 100vh;
-            padding: 20px 20px 100px 20px; /* Space at bottom for floating dock */
-        }
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 
-        .dashboard-container {
-            max-width: 1440px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1.5fr 1fr;
-            gap: 20px;
-        }
+<link rel="stylesheet" href="css/style.css">
 
-        /* Responsive breakdown for smaller screens */
-        @media (max-width: 1024px) {
-            .dashboard-container {
-                grid-template-columns: 1fr 1fr;
-            }
-            .map-column {
-                grid-column: span 2;
-                order: -1; /* Put map on top on tablets */
-            }
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
 
-        @media (max-width: 768px) {
-            .dashboard-container {
-                grid-template-columns: 1fr;
-            }
-            .map-column {
-                grid-column: span 1;
-            }
-        }
+body{
+    background: #f8fafc;
+    color: #0f172a;
+    min-height:100vh;
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-font-smoothing: antialiased;
+}
 
-        /* Glassmorphic Panel Styles */
-        .panel {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:40px 24px 140px 24px;
+}
 
-        .panel:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.08);
-        }
+.header{
+    margin-bottom:32px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 20px;
+}
 
-        h2 {
-            font-size: 1.25rem;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-        }
+.header h1{
+    font-size:32px;
+    font-weight:700;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-        /* COLUMN 1: Quick Triggers & SOS */
-        .left-column {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+.header p{
+    color:#64748b;
+    margin-top:6px;
+    font-size: 16px;
+}
 
-        .sos-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            text-align: center;
-            background: radial-gradient(circle, rgba(255,59,48,0.1) 0%, rgba(255,255,255,0.9) 100%);
-        }
+/* HERO SECTION */
+.hero{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:24px;
+    margin-bottom:32px;
+}
 
-        .sos-button {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: var(--color-sos);
-            color: white;
-            border: none;
-            font-size: 1.8rem;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
-            animation: pulse 2s infinite;
-            transition: transform 0.2s ease;
-            outline: none;
-        }
+.sos-card{
+    background:white;
+    border-radius:14px;
+    padding:32px 24px;
+    text-align:center;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
 
-        .sos-button:active {
-            transform: scale(0.95);
-        }
+.sos-button{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    border:none;
+    background:#dc2626;
+    color:white;
+    font-size:46px;
+    cursor:pointer;
+    margin:10px auto 20px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    animation: pulse 2s infinite ease-in-out;
+}
 
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(255, 59, 48, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
-        }
+.sos-button:hover {
+    background: #b91c1c;
+    transform: scale(1.02);
+}
 
-        .sos-text {
-            margin-top: 15px;
-            font-weight: 600;
-            color: var(--color-sos);
-        }
+@keyframes pulse{
+    0%{
+        box-shadow:0 0 0 0 rgba(220, 38, 38, 0.4), 0 0 0 0 rgba(220, 38, 38, 0.2);
+    }
+    70%{
+        box-shadow:0 0 0 20px rgba(220, 38, 38, 0), 0 0 0 40px rgba(220, 38, 38, 0);
+    }
+    100%{
+        box-shadow:0 0 0 0 rgba(220, 38, 38, 0), 0 0 0 0 rgba(220, 38, 38, 0);
+    }
+}
 
-        /* 2x2 Services Grid */
-        .services-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
+.sos-card h2{
+    font-size: 22px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
 
-        .service-card {
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(0,0,0,0.05);
-            background: white;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-        }
+.sos-card p{
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+}
 
-        .service-card i { font-size: 1.8rem; }
-        
-        .service-card.medical { color: var(--color-medical); }
-        .service-card.police { color: var(--color-police); }
-        .service-card.fire { color: var(--color-fire); }
-        .service-card.mental { color: var(--color-mental); }
+.info-card{
+    background:white;
+    border-radius:14px;
+    padding:40px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
 
-        .service-card:hover {
-            transform: scale(1.04);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        
-        .service-card:active { transform: scale(0.98); }
+.info-card h2{
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom:14px;
+    color: #0f172a;
+}
 
-        /* COLUMN 2: Map & Tracking Location */
-        .map-column {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+.info-card p{
+    font-size: 16px;
+    line-height:1.7;
+    color:#475569;
+}
 
-        .location-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: white;
-            padding: 16px 20px;
-            border-radius: 16px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
+/* SERVICES GRID - Forces 2 Columns and 3 Rows */
+.grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:24px;
+}
 
-        .location-info { display: flex; align-items: center; gap: 12px; }
-        .location-info i { color: var(--color-sos); font-size: 1.3rem; }
-        .address-text h3 { font-size: 1rem; font-weight: 600; }
-        .address-text p { font-size: 0.85rem; color: var(--text-muted); }
+.card{
+    background:white;
+    padding:28px;
+    border-radius:14px;
+    text-decoration:none;
+    color:#0f172a;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
 
-        .map-wrapper {
-            flex-grow: 1;
-            min-height: 450px;
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
+.card:hover{
+    transform: translateY(-4px);
+    border-color: #cbd5e1;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+}
 
-        /* Mock map styles */
-        .mock-map {
-            width: 100%;
-            height: 100%;
-            min-height: 450px;
-            background-color: #e5e9f0;
-            background-image: 
-                radial-gradient(circle at 30% 40%, #fff 4px, transparent 4px),
-                linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
-            position: relative;
-        }
+.card-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
-        .map-pin {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--color-sos);
-            font-size: 2.5rem;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            animation: bounce 2s infinite;
-        }
+.card i{
+    font-size:28px;
+}
 
-        @keyframes bounce {
-            0%, 100% { transform: translate(-50%, -50%); }
-            50% { transform: translate(-50%, -60%); }
-        }
+.card h3{
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom:8px;
+}
 
-        /* COLUMN 3: Nearby Support & Contacts */
-        .right-column {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+.card p{
+    font-size:14px;
+    color:#64748b;
+    line-height: 1.5;
+}
 
-        .list-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+/* Professional Soft Tints instead of raw colors */
+.medical .card-icon-wrapper { background: #fef2f2; }
+.medical i { color: #ef4444; }
 
-        .list-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: white;
-            padding: 14px 16px;
-            border-radius: 14px;
-            border: 1px solid rgba(0,0,0,0.02);
-            transition: background 0.2s ease;
-        }
+.police .card-icon-wrapper { background: #eff6ff; }
+.police i { color: #3b82f6; }
 
-        .list-item:hover { background: #fafbfc; }
+.fire .card-icon-wrapper { background: #fff7ed; }
+.fire i { color: #f97316; }
 
-        .item-details h4 { font-size: 0.95rem; font-weight: 600; }
-        .item-details p { font-size: 0.8rem; color: var(--text-muted); }
+.firstaid .card-icon-wrapper { background: #f0fdf4; }
+.firstaid i { color: #22c55e; }
 
-        .call-btn {
-            background: #e1f5fe;
-            color: #0288d1;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+.hospital .card-icon-wrapper { background: #fff5f5; }
+.hospital i { color: #e11d48; }
 
-        .call-btn:hover {
-            background: #0288d1;
-            color: white;
-        }
+.contacts .card-icon-wrapper { background: #faf5ff; }
+.contacts i { color: #a855f7; }
 
-        /* First Aid Section */
-        .first-aid-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+@media(max-width:850px){
+    .hero{
+        grid-template-columns:1fr;
+    }
+    .info-card {
+        padding: 30px 20px;
+    }
+    /* Adapts grid for responsive mobile presentation */
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 
-        .aid-card {
-            background: white;
-            padding: 12px 16px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            cursor: pointer;
-            border-left: 4px solid var(--color-police);
-            transition: transform 0.2s ease;
-        }
-
-        .aid-card:hover { transform: translateX(4px); }
-        .aid-card i { font-size: 1.2rem; color: var(--text-muted); }
-        .aid-card span { font-size: 0.9rem; font-weight: 500; }
-    </style>
 </head>
 <body>
 
-    <div class="dashboard-container">
-        
-        <div class="left-column">
-            <div class="panel sos-box">
-                <button class="sos-button" onclick="triggerSOS()">SOS</button>
-                <p class="sos-text">Press & Hold to Broadcast SOS</p>
+<div class="container">
+
+    <div class="header">
+        <h1>🚨 Emergency Dashboard</h1>
+        <p>Quick access to verified emergency tools, medical hubs, and local rescue assistance.</p>
+    </div>
+
+    <div class="hero">
+        <div style="display:flex; gap:25px; align-items:flex-start; flex-wrap:wrap; margin-top:20px;">
+
+            <div class="grid" style="flex:1.5; min-width:320px;">
+                <a href="medical.html" class="card medical">
+                    <div class="card-icon-wrapper">
+                        <i class="ri-heart-pulse-fill"></i>
+                    </div>
+                    <h3>Medical Emergency</h3>
+                    <p>Dispatched ambulance routing and urgent medical response teams.</p>
+                </a>
+
+                <a href="police.html" class="card police">
+                    <div class="card-icon-wrapper">
+                        <i class="ri-shield-star-fill"></i>
+                    </div>
+                    <h3>Police Assistance</h3>
+                    <p>Connect with local authorities and precinct dispatch lines.</p>
+                </a>
+
+                <a href="fire.html" class="card fire">
+                    <div class="card-icon-wrapper">
+                        <i class="ri-fire-fill"></i>
+                    </div>
+                    <h3>Fire & Rescue</h3>
+                    <p>Report fires, industrial accidents, or request structural rescue units.</p>
+                </a>
+
+                <a href="firstaid.html" class="card firstaid">
+                    <div class="card-icon-wrapper">
+                        <i class="ri-first-aid-kit-fill"></i>
+                    </div>
+                    <h3>First Aid Registry</h3>
+                    <p>Offline-ready trauma management and situational response blueprints.</p>
+                </a>
+
+                <a href="hospital.html" class="card hospital">
+                    <div class="card-icon-wrapper">
+                        <i class="ri-hospital-fill"></i>
+                    </div>
+                    <h3>Hospitals & Trauma</h3>
+                    <p>Map and turn-by-turn directions to the closest emergency rooms.</p>
+                </a>
+
+                <a href="contacts.html" class="card contacts">
+                    <div class="card-icon-wrapper">
+                        <i class="ri-phone-fill"></i>
+                    </div>
+                    <h3>Hotlines & Contacts</h3>
+                    <p>Consolidated index of international and domestic emergency numbers.</p>
+                </a>
             </div>
 
-            <div class="panel">
-                <h2><i class="fa-solid fa-layer-group"></i> Select Service</h2>
-                <div class="services-grid">
-                    <div class="service-card medical" onclick="selectService('Medical')">
-                        <i class="fa-solid fa-heart-pulse"></i>
-                        <span>Medical</span>
-                    </div>
-                    <div class="service-card police" onclick="selectService('Police')">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <span>Police</span>
-                    </div>
-                    <div class="service-card fire" onclick="selectService('Fire')">
-                        <i class="fa-solid fa-fire-flame-curved"></i>
-                        <span>Fire</span>
-                    </div>
-                    <div class="service-card mental" onclick="selectService('Mental Support')">
-                        <i class="fa-solid fa-brain"></i>
-                        <span>Mental Health</span>
-                    </div>
-                </div>
-            </div>
+            <form onsubmit="event.preventDefault();"
+                style="flex:1; min-width:320px; background:#fff; padding:22px; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,.1);">
 
-            <div class="panel">
-                <h2><i class="fa-solid fa-phone-flip"></i> Hotlines</h2>
-                <div class="list-container">
-                    <div class="list-item">
-                        <div class="item-details">
-                            <h4>Police Department</h4>
-                            <p>Emergency Dispatch Central</p>
-                        </div>
-                        <button class="call-btn" onclick="dial('100')"><i class="fa-solid fa-phone"></i></button>
-                    </div>
-                    <div class="list-item">
-                        <div class="item-details">
-                            <h4>Ambulance / Medical</h4>
-                            <p>Red Cross Network</p>
-                        </div>
-                        <button class="call-btn" onclick="dial('102')"><i class="fa-solid fa-phone"></i></button>
-                    </div>
-                    <div class="list-item">
-                        <div class="item-details">
-                            <h4>Fire Brigade</h4>
-                            <p>Control Station Room</p>
-                        </div>
-                        <button class="call-btn" onclick="dial('101')"><i class="fa-solid fa-phone"></i></button>
-                    </div>
-                </div>
-            </div>
+                <h3 style="margin:0 0 8px; font-size:24px;">Report an Incident</h3>
+
+                <p style="margin-bottom:20px; color:#666;">
+                    Provide details below to report an issue or travel emergency.
+                </p>
+
+                <label style="font-weight:bold;">Incident Type</label>
+
+                <select
+                    style="width:100%; margin-top:8px; margin-bottom:16px; padding:12px; border:1px solid #ddd; border-radius:10px; font-size:15px;">
+                    <option selected disabled>Select incident type...</option>
+                    <option>Road Block / Landslide</option>
+                    <option>Medical Emergency</option>
+                    <option>Accident</option>
+                    <option>Theft</option>
+                    <option>Severe Weather</option>
+                    <option>Other Concern</option>
+                </select>
+
+                <label style="font-weight:bold;">Location</label>
+
+                <input
+                    type="text"
+                    placeholder="Coordinates or Address..."
+                    style="width:100%; margin-top:8px; margin-bottom:16px; padding:12px; border:1px solid #ddd; border-radius:10px; font-size:15px;">
+
+                <label style="font-weight:bold;">Description</label>
+
+                <textarea
+                    rows="5"
+                    placeholder="Describe the situation..."
+                    style="width:100%; margin-top:8px; margin-bottom:16px; padding:12px; border:1px solid #ddd; border-radius:10px; font-size:15px; resize:vertical;"></textarea>
+
+                <label style="font-weight:bold;">Attach Photo (Optional)</label>
+
+                <input
+                    type="file"
+                    accept="image/*"
+                    style="width:100%; margin-top:8px; margin-bottom:20px;">
+
+                <button
+                    style="width:100%; padding:14px; border:none; border-radius:10px; background:#2563eb; color:white; font-size:16px; font-weight:bold; cursor:pointer;">
+                    <i class="ri-send-plane-fill"></i>
+                    Submit Report
+                </button>
+            </form>
+
         </div>
+    </div>
 
-        <div class="map-column">
-            <div class="location-bar">
-                <div class="location-info">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <div class="address-text">
-                        <h3>Chitwan, Bagmati Province</h3>
-                        <p>Accuracy calibrated via GPS (±3 meters)</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="map-wrapper">
+</div>
+
+<nav class="dock">
+
+<a href="index.html" class="dock-btn" style="text-decoration:none;">
+<i class="ri-home-5-line"></i>
+<span>Home</span>
+</a>
+
+<a href="map.html" class="dock-btn" style="text-decoration:none;">
+<i class="ri-map-pin-line"></i>
+<span>Maps</span>
+</a>
+
+<button class="sos-btn">
+<i class="ri-alarm-warning-fill"></i>
+</button>
+
+<a href="emergency.html" class="dock-btn active" style="text-decoration:none;">
+<i class="ri-first-aid-kit-line"></i>
+<span>Emergency</span>
+</a>
+
+<a href="language.html" class="dock-btn" style="text-decoration:none;">
+<i class="ri-translate-2"></i>
+<span>Language</span>
+</a>
+
+</nav>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
