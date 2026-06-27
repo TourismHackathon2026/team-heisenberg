@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सहyatri - Emergency Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(255, 255, 255, 0.6);
+            --text-dark: #2d3748;
+            --text-muted: #718096;
+            
+            /* Emergency Colors */
+            --color-sos: #ff3b30;
+            --color-medical: #e53e3e;
+            --color-police: #1a73e8;
+            --color-fire: #dd6b20;
+            --color-mental: #805ad5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 20px 20px 100px 20px; /* Space at bottom for floating dock */
+        }
+
+        .dashboard-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 20px;
+        }
+
+        /* Responsive breakdown for smaller screens */
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            .map-column {
+                grid-column: span 2;
+                order: -1; /* Put map on top on tablets */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            .map-column {
+                grid-column: span 1;
+            }
+        }
+
+        /* Glassmorphic Panel Styles */
+        .panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        /* COLUMN 1: Quick Triggers & SOS */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sos-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            background: radial-gradient(circle, rgba(255,59,48,0.1) 0%, rgba(255,255,255,0.9) 100%);
+        }
+
+        .sos-button {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: var(--color-sos);
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+            animation: pulse 2s infinite;
+            transition: transform 0.2s ease;
+            outline: none;
+        }
+
+        .sos-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(255, 59, 48, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+        }
+
+        .sos-text {
+            margin-top: 15px;
+            font-weight: 600;
+            color: var(--color-sos);
+        }
+
+        /* 2x2 Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .service-card {
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .service-card i { font-size: 1.8rem; }
+        
+        .service-card.medical { color: var(--color-medical); }
+        .service-card.police { color: var(--color-police); }
+        .service-card.fire { color: var(--color-fire); }
+        .service-card.mental { color: var(--color-mental); }
+
+        .service-card:hover {
+            transform: scale(1.04);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .service-card:active { transform: scale(0.98); }
+
+        /* COLUMN 2: Map & Tracking Location */
+        .map-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .location-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .location-info { display: flex; align-items: center; gap: 12px; }
+        .location-info i { color: var(--color-sos); font-size: 1.3rem; }
+        .address-text h3 { font-size: 1rem; font-weight: 600; }
+        .address-text p { font-size: 0.85rem; color: var(--text-muted); }
+
+        .map-wrapper {
+            flex-grow: 1;
+            min-height: 450px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Mock map styles */
+        .mock-map {
+            width: 100%;
+            height: 100%;
+            min-height: 450px;
+            background-color: #e5e9f0;
+            background-image: 
+                radial-gradient(circle at 30% 40%, #fff 4px, transparent 4px),
+                linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            position: relative;
+        }
+
+        .map-pin {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--color-sos);
+            font-size: 2.5rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, -50%); }
+            50% { transform: translate(-50%, -60%); }
+        }
+
+        /* COLUMN 3: Nearby Support & Contacts */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: background 0.2s ease;
+        }
+
+        .list-item:hover { background: #fafbfc; }
+
+        .item-details h4 { font-size: 0.95rem; font-weight: 600; }
+        .item-details p { font-size: 0.8rem; color: var(--text-muted); }
+
+        .call-btn {
+            background: #e1f5fe;
+            color: #0288d1;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .call-btn:hover {
+            background: #0288d1;
+            color: white;
+        }
+
+        /* First Aid Section */
+        .first-aid-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .aid-card {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            border-left: 4px solid var(--color-police);
+            transition: transform 0.2s ease;
+        }
+
+        .aid-card:hover { transform: translateX(4px); }
+        .aid-card i { font-size: 1.2rem; color: var(--text-muted); }
+        .aid-card span { font-size: 0.9rem; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <div class="left-column">
+            <div class="panel sos-box">
+                <button class="sos-button" onclick="triggerSOS()">SOS</button>
+                <p class="sos-text">Press & Hold to Broadcast SOS</p>
+            </div>
+
+            <div class="panel">
+                <h2><i class="fa-solid fa-layer-group"></i> Select Service</h2>
+                <div class="services-grid">
+                    <div class="service-card medical" onclick="selectService('Medical')">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        <span>Medical</span>
+                    </div>
+                    <div class="service-card police" onclick="selectService('Police')">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Police</span>
+                    </div>
+                    <div class="service-card fire" onclick="selectService('Fire')">
+                        <i class="fa-solid fa-fire-flame-curved"></i>
+                        <span>Fire</span>
+                    </div>
+                    <div class="service-card mental" onclick="selectService('Mental Support')">
+                        <i class="fa-solid fa-brain"></i>
+                        <span>Mental Health</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2><i class="fa-solid fa-phone-flip"></i> Hotlines</h2>
+                <div class="list-container">
+                    <div class="list-item">
+                        <div class="item-details">
+                            <h4>Police Department</h4>
+                            <p>Emergency Dispatch Central</p>
+                        </div>
+                        <button class="call-btn" onclick="dial('100')"><i class="fa-solid fa-phone"></i></button>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-details">
+                            <h4>Ambulance / Medical</h4>
+                            <p>Red Cross Network</p>
+                        </div>
+                        <button class="call-btn" onclick="dial('102')"><i class="fa-solid fa-phone"></i></button>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-details">
+                            <h4>Fire Brigade</h4>
+                            <p>Control Station Room</p>
+                        </div>
+                        <button class="call-btn" onclick="dial('101')"><i class="fa-solid fa-phone"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-column">
+            <div class="location-bar">
+                <div class="location-info">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div class="address-text">
+                        <h3>Chitwan, Bagmati Province</h3>
+                        <p>Accuracy calibrated via GPS (±3 meters)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-wrapper">
