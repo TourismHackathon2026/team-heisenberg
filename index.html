@@ -5,24 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tourist Safety</title>
 
-    <link rel="stylesheet" href="styles/style.css">
-</head>
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
 
-    <header class="navbar">
-        <h1>Tourist Safety</h1>
-    </header>
+    <main id="app">
 
-    <main class="container">
-        <section class="hero">
-            <h2>Stay Safe. Explore Confidently.</h2>
-            <p>Your offline travel safety companion.</p>
-
-            <button id="startBtn">Get Started</button>
+        <section class="page active">
+            <h1>Tourist Safety</h1>
+            <p>Your Offline Safety Companion</p>
         </section>
+
     </main>
 
-   <script src="js/script.js"></script> 
+    <nav class="dock">
+
+        <button class="dock-btn active">
+            <i class="ri-home-5-line"></i>
+            <span>Home</span>
+        </button>
+
+        <button class="dock-btn">
+            <i class="ri-map-pin-line"></i>
+            <span>Maps</span>
+        </button>
+
+        <div class="dock-center">
+
+            <button class="sos-btn">
+                <i class="ri-alarm-warning-fill"></i>
+            </button>
+
+        </div>
+
+        <button class="dock-btn emergency-btn">
+            <i class="ri-first-aid-kit-line"></i>
+            <span>Emergency</span>
+        </button>
+
+        <button class="dock-btn">
+            <i class="ri-translate-2"></i>
+            <span>Language</span>
+        </button>
+
+    </nav>
+
+    <div class="emergency-menu">
+
+        <button>🚨 SOS</button>
+
+        <button>🩹 First Aid</button>
+
+        <button>☎ Emergency Contacts</button>
+
+    </div>
+
+    <script src="js/script.js"></script>
+
 </body>
 </html>

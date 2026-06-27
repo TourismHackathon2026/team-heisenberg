@@ -1,0 +1,201 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial,Helvetica,sans-serif;
+    background:#eef2f7;
+    height:100vh;
+    overflow:hidden;
+
+}
+
+#app{
+
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding-bottom:120px;
+
+}
+
+.page h1{
+
+    font-size:2.8rem;
+    margin-bottom:10px;
+
+}
+
+.page p{
+
+    color:#666;
+
+}
+
+
+/* ---------- Bottom Dock ---------- */
+
+.dock{
+
+    position:fixed;
+
+    bottom:20px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:min(95%,500px);
+
+    height:78px;
+
+    background:rgba(255,255,255,.9);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:30px;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    align-items:center;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.18);
+
+}
+
+.dock-btn{
+
+    background:none;
+
+    border:none;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    color:#555;
+
+    transition:.3s;
+
+}
+
+.dock-btn i{
+
+    font-size:25px;
+
+}
+
+.dock-btn span{
+
+    font-size:11px;
+
+    margin-top:4px;
+
+}
+
+.dock-btn:hover{
+
+    transform:translateY(-8px) scale(1.12);
+
+    color:#0077ff;
+
+}
+
+.active{
+
+    color:#0077ff;
+
+}
+
+
+/* SOS */
+
+.sos-btn{
+
+    width:68px;
+
+    height:68px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#ff2d55;
+
+    color:white;
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:0 10px 30px rgba(255,0,0,.45);
+
+}
+
+.sos-btn:hover{
+
+    transform:scale(1.15);
+
+    box-shadow:0 0 25px red;
+
+}
+
+
+/* Emergency Popup */
+
+.emergency-menu{
+
+    position:fixed;
+
+    bottom:115px;
+
+    right:25px;
+
+    display:none;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.emergency-menu button{
+
+    border:none;
+
+    padding:14px 18px;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    background:white;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.18);
+
+    transition:.25s;
+
+}
+
+.emergency-menu button:hover{
+
+    transform:translateX(-8px);
+
+    background:#0077ff;
+
+    color:white;
+
+}
