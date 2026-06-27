@@ -242,29 +242,32 @@ body{
         <div style="display:flex; gap:25px; align-items:flex-start; flex-wrap:wrap; margin-top:20px;">
 
             <div class="grid" style="flex:1.5; min-width:320px;">
-                <a href="medical.html" class="card medical">
-                    <div class="card-icon-wrapper">
-                        <i class="ri-heart-pulse-fill"></i>
-                    </div>
-                    <h3>Medical Emergency</h3>
-                    <p>Dispatched ambulance routing and urgent medical response teams.</p>
-                </a>
+                <a href="#" class="card medical"
+   onclick="if(confirm('Call Ambulance (102)?')) window.location.href='tel:102'; return false;">
+    <div class="card-icon-wrapper">
+        <i class="ri-heart-pulse-fill"></i>
+    </div>
+    <h3>Ambulance Routing</h3>
+    <p>Dispatched ambulance routing and urgent medical response teams.</p>
+</a>
 
-                <a href="police.html" class="card police">
-                    <div class="card-icon-wrapper">
-                        <i class="ri-shield-star-fill"></i>
-                    </div>
-                    <h3>Police Assistance</h3>
-                    <p>Connect with local authorities and precinct dispatch lines.</p>
-                </a>
+<a href="#" class="card police"
+   onclick="if(confirm('Call Nepal Police (100)?')) window.location.href='tel:100'; return false;">
+    <div class="card-icon-wrapper">
+        <i class="ri-shield-star-fill"></i>
+    </div>
+    <h3>Police Assistance</h3>
+    <p>Connect with local authorities and precinct dispatch lines.</p>
+</a>
 
-                <a href="fire.html" class="card fire">
-                    <div class="card-icon-wrapper">
-                        <i class="ri-fire-fill"></i>
-                    </div>
-                    <h3>Fire & Rescue</h3>
-                    <p>Report fires, industrial accidents, or request structural rescue units.</p>
-                </a>
+<a href="#" class="card fire"
+   onclick="if(confirm('Call Fire Brigade (101)?')) window.location.href='tel:101'; return false;">
+    <div class="card-icon-wrapper">
+        <i class="ri-fire-fill"></i>
+    </div>
+    <h3>Fire & Rescue</h3>
+    <p>Report fires, industrial accidents, or request structural rescue units.</p>
+</a>
 
                 <a href="firstaid.html" class="card firstaid">
                     <div class="card-icon-wrapper">

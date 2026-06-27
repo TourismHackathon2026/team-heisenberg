@@ -52,13 +52,17 @@ const weatherDB = {
 function updateWeatherUI(cityKey) {
 
   const data = weatherDB[cityKey];
+  const cityName = document.getElementById("cityName");
+  const condition = document.getElementById("condition");
+  const temp = document.getElementById("temp");
+  const wind = document.getElementById("wind");
 
-  if (!data) return;
+  if (!data || !cityName || !condition || !temp || !wind) return;
 
-  document.getElementById("cityName").innerText = data.city;
-  document.getElementById("condition").innerText = data.condition;
-  document.getElementById("temp").innerText = data.temp + "°C";
-  document.getElementById("wind").innerText = data.wind + " km/h";
+  cityName.innerText = data.city;
+  condition.innerText = data.condition;
+  temp.innerText = data.temp + "°C";
+  wind.innerText = data.wind + " km/h";
 }
 
 
@@ -66,7 +70,7 @@ function updateWeatherUI(cityKey) {
 let map;
 let marker;
 
-if (document.getElementById("map")) {
+if (document.getElementById("map") && typeof L !== "undefined") {
 
   map = L.map('map').setView([28.3949, 84.1240], 7);
 
@@ -82,7 +86,7 @@ if (document.getElementById("map")) {
 async function searchPlace() {
 
   const input = document.getElementById("searchBox");
-  if (!input) return;
+  if (!input || !map) return;
 
   const query = input.value;
   if (!query) return;

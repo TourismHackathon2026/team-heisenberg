@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First Aid Guide</title>
+
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#fff5f5;
+    color:#222;
+}
+
+header{
+    background:linear-gradient(135deg,#dc2626,#991b1b);
+    color:white;
+    padding:40px 20px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(220,38,38,.25);
+}
+
+header h1{
+    font-size:2.2rem;
+    margin-bottom:10px;
+}
+
+header p{
+    max-width:700px;
+    margin:auto;
+    opacity:.9;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:40px auto;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    border-top:5px solid #dc2626;
+    box-shadow:0 8px 20px rgba(220,38,38,.08);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 30px rgba(220,38,38,.18);
+}
+
+.icon{
+    width:65px;
+    height:65px;
+    border-radius:16px;
+    background:#fee2e2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    color:#dc2626;
+    margin-bottom:18px;
+}
+
+.card h2{
+    margin-bottom:15px;
+    font-size:22px;
+    color:#b91c1c;
+}
+
+.card ul{
+    padding-left:20px;
+}
+
+.card li{
+    margin-bottom:10px;
+    line-height:1.6;
+}
+
+.warning{
+    margin-top:18px;
+    background:#fef2f2;
+    border-left:5px solid #dc2626;
+    color:#991b1b;
+    padding:12px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+footer{
+    text-align:center;
+    padding:25px;
+    color:#7f1d1d;
+    font-size:14px;
+    margin-top:40px;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+    <h1><i class="ri-heart-pulse-fill"></i> First Aid Guide</h1>
+    <p>
+        Learn quick first aid techniques that can help save lives until professional medical assistance arrives.
+    </p>
+</header>
+
+<div class="container">
+
+<div class="grid">
+
+    <!-- Snake Bite -->
+    <div class="card">
+        <div class="icon"><i class="ri-bug-fill"></i></div>
+        <h2>Snake Bite</h2>
+        <ul>
+            <li>Stay calm and keep the victim still.</li>
+            <li>Immobilize the bitten limb below heart level.</li>
+            <li>Remove rings or tight clothing.</li>
+            <li>Call emergency medical services immediately.</li>
+            <li>Do NOT cut, suck, or apply ice to the wound.</li>
+        </ul>
+        <div class="warning">⚠ Seek medical help immediately.</div>
+    </div>
+
+    <!-- Burns -->
+    <div class="card">
+        <div class="icon"><i class="ri-fire-fill"></i></div>
+        <h2>Burns</h2>
+        <ul>
+            <li>Cool the burn with running water for 20 minutes.</li>
+            <li>Remove jewelry before swelling begins.</li>
+            <li>Cover with a sterile dressing.</li>
+            <li>Do not apply butter, toothpaste, or oil.</li>
+        </ul>
+        <div class="warning">⚠ Severe burns require immediate medical care.</div>
+    </div>
+
+    <!-- Bleeding -->
+    <div class="card">
+        <div class="icon"><i class="ri-drop-fill"></i></div>
+        <h2>Severe Bleeding</h2>
+        <ul>
+            <li>Apply firm pressure using a clean cloth.</li>
+            <li>Raise the injured limb if possible.</li>
+            <li>Do not remove blood-soaked bandages.</li>
+            <li>Add more dressing if necessary.</li>
+        </ul>
+        <div class="warning">⚠ Heavy bleeding can become life-threatening.</div>
+    </div>
+
+    <!-- Fracture -->
+    <div class="card">
+        <div class="icon"><i class="ri-wheelchair-fill"></i></div>
+        <h2>Broken Bone</h2>
+        <ul>
+            <li>Do not move the injured limb.</li>
+            <li>Support it using a splint if trained.</li>
+            <li>Apply a cold pack to reduce swelling.</li>
+            <li>Seek emergency medical treatment.</li>
+        </ul>
+        <div class="warning">⚠ Avoid attempting to straighten the bone.</div>
+    </div>
+
+    <!-- Choking -->
+    <div class="card">
+        <div class="icon"><i class="ri-lungs-fill"></i></div>
+        <h2>Choking</h2>
+        <ul>
+            <li>Encourage the person to cough.</li>
+            <li>If unable to breathe, perform abdominal thrusts.</li>
+            <li>Call emergency services immediately.</li>
+            <li>Begin CPR if the person becomes unconscious.</li>
+        </ul>
+        <div class="warning">⚠ Act quickly—lack of oxygen is dangerous.</div>
+    </div>
+
+    <!-- Heat Stroke -->
+    <div class="card">
+        <div class="icon"><i class="ri-sun-fill"></i></div>
+        <h2>Heat Stroke</h2>
+        <ul>
+            <li>Move the person to a cool place.</li>
+            <li>Remove excess clothing.</li>
+            <li>Cool the body with wet towels or cold water.</li>
+            <li>Give water only if fully conscious.</li>
+        </ul>
+        <div class="warning">⚠ Heat stroke is a medical emergency.</div>
+    </div>
+
+    <!-- Animal Bite -->
+    <div class="card">
+        <div class="icon"><i class="ri-footprint-fill"></i></div>
+        <h2>Animal Bite</h2>
+        <ul>
+            <li>Wash the wound with soap and water.</li>
+            <li>Apply antiseptic if available.</li>
+            <li>Cover with a clean bandage.</li>
+            <li>Visit a hospital for rabies evaluation if necessary.</li>
+        </ul>
+        <div class="warning">⚠ Monitor for infection or unusual swelling.</div>
+    </div>
+
+</div>
+
+</div>
+
+<footer>
+    This guide is for emergency first aid only. Always seek professional medical assistance whenever possible.
+</footer>
+
+</body>
+</html>

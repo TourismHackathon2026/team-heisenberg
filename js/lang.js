@@ -15,6 +15,28 @@ function openTab(id, btn){
 }
 
 
+// ================= TEXT TO SPEECH =================
+
+function speakText(text, lang = "ne-NP") {
+
+    if (!("speechSynthesis" in window)) {
+        alert("Text-to-Speech is not supported in this browser.");
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(text);
+
+    speech.lang = lang;
+    speech.rate = 0.9;
+    speech.pitch = 5;
+    speech.volume = 1;
+
+    speechSynthesis.speak(speech);
+}
+
+
 // ================= ENGLISH -> NEPALI =================
 
 const englishToNepali = {
@@ -64,7 +86,16 @@ function translateENtoNEP(){
     }
 
     if(englishToNepali[text]){
-        output.innerHTML="<strong>"+englishToNepali[text]+"</strong>";
+
+        const translated = englishToNepali[text];
+
+        output.innerHTML = `
+            <strong>${translated}</strong><br><br>
+            <button onclick="speakText(\`${translated}\`, 'ne-NP')">
+                🔊 Listen
+            </button>
+        `;
+
     }
     else{
         output.innerHTML="Phrase not found.<br><br>Try one of these:<br><br>• Hello<br>• Thank you<br>• Please<br>• I need help<br>• Where is hospital<br>• Call police<br>• I am lost<br>• I need water<br>• Where is the hotel<br>• How much";
@@ -117,7 +148,16 @@ function translateNEPtoEN(){
     }
 
     if(nepaliToEnglish[text]){
-        output.innerHTML="<strong>"+nepaliToEnglish[text]+"</strong>";
+
+        const translated = nepaliToEnglish[text];
+
+        output.innerHTML = `
+            <strong>${translated}</strong><br><br>
+            <button onclick="speakText(\`${translated}\`, 'en-US')">
+                🔊 Listen
+            </button>
+        `;
+
     }
     else{
         output.innerHTML="Phrase not found.";
@@ -151,7 +191,16 @@ function copyText(text){
 
     const msg=document.getElementById("copyMsg");
 
-    msg.innerHTML="<strong>"+text+"</strong><br>"+emergencyTranslations[text];
+    const translated = emergencyTranslations[text];
+
+    msg.innerHTML = `
+        <strong>${text}</strong><br>
+        ${translated}<br><br>
+
+        <button onclick="speakText(\`${translated}\`, 'ne-NP')">
+            🔊 Listen
+        </button>
+    `;
 
     setTimeout(()=>{
         msg.innerHTML="";
