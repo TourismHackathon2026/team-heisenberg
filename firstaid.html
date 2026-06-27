@@ -1,230 +1,587 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>First Aid Guide</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Aid Guide</title>
 
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <style>
+        /* --- Design System & Reset --- */
+        :root {
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --primary-accent: #0284c7;
+            --primary-light: #e0f2fe;
+            
+            /* Severities */
+            --critical-red: #ef4444;
+            --critical-bg: #fee2e2;
+            --high-orange: #f97316;
+            --high-bg: #ffedd5;
+            
+            /* Lists */
+            --do-green: #10b981;
+            --do-bg: #ecfdf5;
+            --dont-red: #f43f5e;
+            --dont-bg: #fff1f2;
+            
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --transition: all 0.25s ease;
+        }
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
 
-body{
-    background:#fff5f5;
-    color:#222;
-}
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px 10px;
+        }
 
-header{
-    background:linear-gradient(135deg,#dc2626,#991b1b);
-    color:white;
-    padding:40px 20px;
-    text-align:center;
-    box-shadow:0 8px 20px rgba(220,38,38,.25);
-}
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
 
-header h1{
-    font-size:2.2rem;
-    margin-bottom:10px;
-}
+        /* --- Header Styles --- */
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 10px 0;
+        }
 
-header p{
-    max-width:700px;
-    margin:auto;
-    opacity:.9;
-}
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-.container{
-    width:90%;
-    max-width:1200px;
-    margin:40px auto;
-}
+        header h1 i {
+            color: var(--critical-red);
+            animation: pulse 2s infinite;
+        }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:25px;
-}
+        header p {
+            color: var(--text-secondary);
+            margin-top: 6px;
+            font-size: 0.95rem;
+        }
 
-.card{
-    background:white;
-    border-radius:18px;
-    padding:25px;
-    border-top:5px solid #dc2626;
-    box-shadow:0 8px 20px rgba(220,38,38,.08);
-    transition:.3s;
-}
+        /* Search Box */
+        .search-box {
+            position: relative;
+            margin-top: 20px;
+            max-width: 100%;
+        }
 
-.card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 15px 30px rgba(220,38,38,.18);
-}
+        .search-box i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
 
-.icon{
-    width:65px;
-    height:65px;
-    border-radius:16px;
-    background:#fee2e2;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:30px;
-    color:#dc2626;
-    margin-bottom:18px;
-}
+        .search-box input {
+            width: 100%;
+            padding: 14px 14px 14px 48px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            background-color: var(--card-bg);
+            font-size: 1rem;
+            color: var(--text-primary);
+            box-shadow: var(--shadow);
+            outline: none;
+            transition: var(--transition);
+        }
 
-.card h2{
-    margin-bottom:15px;
-    font-size:22px;
-    color:#b91c1c;
-}
+        .search-box input:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
 
-.card ul{
-    padding-left:20px;
-}
+        /* --- Navigation Tabs --- */
+        .aid-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 4px 4px 12px 4px;
+            margin-bottom: 16px;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+        }
 
-.card li{
-    margin-bottom:10px;
-    line-height:1.6;
-}
+        .aid-tabs::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome/Safari */
+        }
 
-.warning{
-    margin-top:18px;
-    background:#fef2f2;
-    border-left:5px solid #dc2626;
-    color:#991b1b;
-    padding:12px;
-    border-radius:8px;
-    font-weight:bold;
-}
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            padding: 10px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: var(--transition);
+        }
 
-footer{
-    text-align:center;
-    padding:25px;
-    color:#7f1d1d;
-    font-size:14px;
-    margin-top:40px;
-}
-</style>
+        .tab i {
+            font-size: 1.1rem;
+        }
 
+        .tab:hover {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .tab.active {
+            background-color: var(--text-primary);
+            color: #ffffff;
+            border-color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        /* --- Content Layout --- */
+        main {
+            position: relative;
+        }
+
+        .aid-content {
+            display: none; /* Hidden by default */
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 30px 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            animation: fadeIn 0.35s ease-out;
+        }
+
+        .aid-content.active {
+            display: block; /* Show only the active section */
+        }
+
+        /* Content Elements */
+        .hero-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-light);
+            color: var(--primary-accent);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        /* Customizing hero icons based on tab context slightly if needed */
+        #snake .hero-icon { background-color: var(--critical-bg); color: var(--critical-red); }
+        #burn .hero-icon { background-color: var(--high-bg); color: var(--high-orange); }
+        #bleeding .hero-icon { background-color: var(--critical-bg); color: var(--critical-red); }
+        #choking .hero-icon { background-color: var(--critical-bg); color: var(--critical-red); }
+        #fracture .hero-icon { background-color: var(--high-bg); color: var(--high-orange); }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+
+        /* Severity Badges */
+        .severity {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .severity.critical {
+            background-color: var(--critical-bg);
+            color: var(--critical-red);
+        }
+
+        .severity.high {
+            background-color: var(--high-bg);
+            color: var(--high-orange);
+        }
+
+        .description {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 28px;
+        }
+
+        /* --- Action Boxes (Steps & Do Nots) --- */
+        .steps, .dont {
+            border-radius: var(--radius-md);
+            padding: 20px 22px;
+            margin-bottom: 20px;
+        }
+
+        .steps {
+            background-color: var(--do-bg);
+            border-left: 5px solid var(--do-green);
+        }
+
+        .dont {
+            background-color: var(--dont-bg);
+            border-left: 5px solid var(--dont-red);
+            margin-bottom: 0; /* Clear margin for final element */
+        }
+
+        .steps h3, .dont h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .steps h3 { color: #065f46; }
+        .dont h3 { color: #9f1239; }
+
+        /* Customizing list displays */
+        .steps ol, .dont ul {
+            list-style-position: inside;
+            padding-left: 2px;
+        }
+
+        .steps li, .dont li {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .steps li:last-child, .dont li:last-child {
+            margin-bottom: 0;
+        }
+
+        .steps li { color: #047857; }
+        .dont li { color: #b91c1c; }
+
+        /* Dynamic Bullet Points Styling */
+        .steps ol { list-style-type: decimal; }
+        .dont ul { list-style-type: "• "; }
+
+        /* --- Keyframe Animations --- */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-    <h1><i class="ri-heart-pulse-fill"></i> First Aid Guide</h1>
-    <p>
-        Learn quick first aid techniques that can help save lives until professional medical assistance arrives.
-    </p>
-</header>
-
 <div class="container">
 
-<div class="grid">
+    <header>
+        <h1><i class="ri-heart-pulse-fill"></i> First Aid Guide</h1>
+        <p>Quick emergency instructions until professional medical help arrives.</p>
 
-    <!-- Snake Bite -->
-    <div class="card">
-        <div class="icon"><i class="ri-bug-fill"></i></div>
-        <h2>Snake Bite</h2>
-        <ul>
-            <li>Stay calm and keep the victim still.</li>
-            <li>Immobilize the bitten limb below heart level.</li>
-            <li>Remove rings or tight clothing.</li>
-            <li>Call emergency medical services immediately.</li>
-            <li>Do NOT cut, suck, or apply ice to the wound.</li>
-        </ul>
-        <div class="warning">⚠ Seek medical help immediately.</div>
-    </div>
+        <div class="search-box">
+            <i class="ri-search-line"></i>
+            <input type="text" placeholder="Search first aid...">
+        </div>
+    </header>
 
-    <!-- Burns -->
-    <div class="card">
-        <div class="icon"><i class="ri-fire-fill"></i></div>
-        <h2>Burns</h2>
-        <ul>
-            <li>Cool the burn with running water for 20 minutes.</li>
-            <li>Remove jewelry before swelling begins.</li>
-            <li>Cover with a sterile dressing.</li>
-            <li>Do not apply butter, toothpaste, or oil.</li>
-        </ul>
-        <div class="warning">⚠ Severe burns require immediate medical care.</div>
-    </div>
+    <nav class="aid-tabs">
 
-    <!-- Bleeding -->
-    <div class="card">
-        <div class="icon"><i class="ri-drop-fill"></i></div>
-        <h2>Severe Bleeding</h2>
-        <ul>
-            <li>Apply firm pressure using a clean cloth.</li>
-            <li>Raise the injured limb if possible.</li>
-            <li>Do not remove blood-soaked bandages.</li>
-            <li>Add more dressing if necessary.</li>
-        </ul>
-        <div class="warning">⚠ Heavy bleeding can become life-threatening.</div>
-    </div>
+        <button class="tab active" onclick="showAid('snake',this)">
+            <i class="ri-bug-fill"></i>
+            <span>Snake Bite</span>
+        </button>
 
-    <!-- Fracture -->
-    <div class="card">
-        <div class="icon"><i class="ri-wheelchair-fill"></i></div>
-        <h2>Broken Bone</h2>
-        <ul>
-            <li>Do not move the injured limb.</li>
-            <li>Support it using a splint if trained.</li>
-            <li>Apply a cold pack to reduce swelling.</li>
-            <li>Seek emergency medical treatment.</li>
-        </ul>
-        <div class="warning">⚠ Avoid attempting to straighten the bone.</div>
-    </div>
+        <button class="tab" onclick="showAid('burn',this)">
+            <i class="ri-fire-fill"></i>
+            <span>Burns</span>
+        </button>
 
-    <!-- Choking -->
-    <div class="card">
-        <div class="icon"><i class="ri-lungs-fill"></i></div>
-        <h2>Choking</h2>
-        <ul>
-            <li>Encourage the person to cough.</li>
-            <li>If unable to breathe, perform abdominal thrusts.</li>
-            <li>Call emergency services immediately.</li>
-            <li>Begin CPR if the person becomes unconscious.</li>
-        </ul>
-        <div class="warning">⚠ Act quickly—lack of oxygen is dangerous.</div>
-    </div>
+        <button class="tab" onclick="showAid('bleeding',this)">
+            <i class="ri-drop-fill"></i>
+            <span>Bleeding</span>
+        </button>
 
-    <!-- Heat Stroke -->
-    <div class="card">
-        <div class="icon"><i class="ri-sun-fill"></i></div>
-        <h2>Heat Stroke</h2>
-        <ul>
-            <li>Move the person to a cool place.</li>
-            <li>Remove excess clothing.</li>
-            <li>Cool the body with wet towels or cold water.</li>
-            <li>Give water only if fully conscious.</li>
-        </ul>
-        <div class="warning">⚠ Heat stroke is a medical emergency.</div>
-    </div>
+        <button class="tab" onclick="showAid('choking',this)">
+            <i class="ri-lungs-fill"></i>
+            <span>Choking</span>
+        </button>
 
-    <!-- Animal Bite -->
-    <div class="card">
-        <div class="icon"><i class="ri-footprint-fill"></i></div>
-        <h2>Animal Bite</h2>
-        <ul>
-            <li>Wash the wound with soap and water.</li>
-            <li>Apply antiseptic if available.</li>
-            <li>Cover with a clean bandage.</li>
-            <li>Visit a hospital for rabies evaluation if necessary.</li>
-        </ul>
-        <div class="warning">⚠ Monitor for infection or unusual swelling.</div>
-    </div>
+        <button class="tab" onclick="showAid('fracture',this)">
+            <i class="ri-wheelchair-fill"></i>
+            <span>Broken Bone</span>
+        </button>
+
+    </nav>
+
+    <main>
+
+        <section class="aid-content active" id="snake">
+
+            <div class="hero-icon">
+                <i class="ri-bug-fill"></i>
+            </div>
+
+            <h2>Snake Bite</h2>
+
+            <div class="severity critical">
+                🔴 Critical Emergency
+            </div>
+
+            <p class="description">
+                A venomous snake bite can become life-threatening. Keep the victim calm and seek immediate medical assistance.
+            </p>
+
+            <div class="steps">
+
+                <h3>Steps to Follow</h3>
+
+                <ol>
+                    <li>Move away from the snake safely.</li>
+                    <li>Keep the victim calm and still.</li>
+                    <li>Immobilize the bitten limb.</li>
+                    <li>Remove rings or tight clothing.</li>
+                    <li>Call emergency services immediately.</li>
+                </ol>
+
+            </div>
+
+            <div class="dont">
+
+                <h3>Do NOT</h3>
+
+                <ul>
+                    <li>Cut the wound.</li>
+                    <li>Suck out the venom.</li>
+                    <li>Apply ice.</li>
+                    <li>Use a tourniquet.</li>
+                </ul>
+
+            </div>
+
+        </section>
+
+        <section class="aid-content" id="burn">
+
+            <div class="hero-icon">
+                <i class="ri-fire-fill"></i>
+            </div>
+
+            <h2>Burns</h2>
+
+            <div class="severity high">
+                🟠 High Priority
+            </div>
+
+            <p class="description">
+                Cooling a burn quickly helps reduce tissue damage.
+            </p>
+
+            <div class="steps">
+
+                <h3>Steps to Follow</h3>
+
+                <ol>
+                    <li>Remove the person from the heat source.</li>
+                    <li>Cool the burn under running water for 20 minutes.</li>
+                    <li>Remove jewelry before swelling starts.</li>
+                    <li>Cover with a clean dressing.</li>
+                    <li>Seek medical care if severe.</li>
+                </ol>
+
+            </div>
+
+            <div class="dont">
+
+                <h3>Do NOT</h3>
+
+                <ul>
+                    <li>Apply butter.</li>
+                    <li>Use toothpaste.</li>
+                    <li>Burst blisters.</li>
+                </ul>
+
+            </div>
+
+        </section>
+
+        <section class="aid-content" id="bleeding">
+
+            <div class="hero-icon">
+                <i class="ri-drop-fill"></i>
+            </div>
+
+            <h2>Severe Bleeding</h2>
+
+            <div class="severity critical">
+                🔴 Critical Emergency
+            </div>
+
+            <p class="description">
+                Heavy bleeding must be controlled immediately to prevent shock.
+            </p>
+
+            <div class="steps">
+
+                <h3>Steps to Follow</h3>
+
+                <ol>
+                    <li>Apply direct pressure.</li>
+                    <li>Keep pressure constant.</li>
+                    <li>Raise the limb if possible.</li>
+                    <li>Add more dressing if needed.</li>
+                    <li>Call emergency services.</li>
+                </ol>
+
+            </div>
+
+            <div class="dont">
+
+                <h3>Do NOT</h3>
+
+                <ul>
+                    <li>Remove soaked bandages.</li>
+                    <li>Wash a heavily bleeding wound.</li>
+                </ul>
+
+            </div>
+
+        </section>
+
+        <section class="aid-content" id="choking">
+
+            <div class="hero-icon">
+                <i class="ri-lungs-fill"></i>
+            </div>
+
+            <h2>Choking</h2>
+
+            <div class="severity critical">
+                🔴 Critical Emergency
+            </div>
+
+            <p class="description">
+                A blocked airway can become fatal within minutes.
+            </p>
+
+            <div class="steps">
+
+                <h3>Steps to Follow</h3>
+
+                <ol>
+                    <li>Encourage coughing.</li>
+                    <li>Give 5 back blows.</li>
+                    <li>Give 5 abdominal thrusts.</li>
+                    <li>Repeat until the object comes out.</li>
+                    <li>Start CPR if unconscious.</li>
+                </ol>
+
+            </div>
+
+            <div class="dont">
+
+                <h3>Do NOT</h3>
+
+                <ul>
+                    <li>Give food or water.</li>
+                    <li>Blindly put fingers into the mouth.</li>
+                </ul>
+
+            </div>
+
+        </section>
+
+        <section class="aid-content" id="fracture">
+
+            <div class="hero-icon">
+                <i class="ri-wheelchair-fill"></i>
+            </div>
+
+            <h2>Broken Bone</h2>
+
+            <div class="severity high">
+                🟠 High Priority
+            </div>
+
+            <p class="description">
+                Minimize movement to prevent further injury.
+            </p>
+
+            <div class="steps">
+
+                <h3>Steps to Follow</h3>
+
+                <ol>
+                    <li>Keep the injured area still.</li>
+                    <li>Support the limb.</li>
+                    <li>Apply a cold pack.</li>
+                    <li>Use a splint if trained.</li>
+                    <li>Seek medical attention.</li>
+                </ol>
+
+            </div>
+
+            <div class="dont">
+
+                <h3>Do NOT</h3>
+
+                <ul>
+                    <li>Straighten the bone.</li>
+                    <li>Move the victim unnecessarily.</li>
+                </ul>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </div>
 
-</div>
+<script>
+function showAid(id,btn){
 
-<footer>
-    This guide is for emergency first aid only. Always seek professional medical assistance whenever possible.
-</footer>
+    document.querySelectorAll(".aid-content").forEach(section=>{
+        section.classList.remove("active");
+    });
+
+    document.getElementById(id).classList.add("active");
+
+    document.querySelectorAll(".tab").forEach(tab=>{
+        tab.classList.remove("active");
+    });
+
+    btn.classList.add("active");
+}
+</script>
 
 </body>
 </html>

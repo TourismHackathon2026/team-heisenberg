@@ -2,147 +2,242 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Language Tools</title>
 
 <link rel="stylesheet" href="css/style.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 
 <style>
-body{
-  margin:0;
-  font-family: Arial, sans-serif;
-  background:#eef2f7;
-  height:100vh;
-  overflow:hidden;
-  color:#111827;
+:root {
+    --bg-main: #f1f5f9;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-light: #eff6ff;
+    
+    --emergency: #e11d48;
+    --emergency-hover: #9f1239;
+    --emergency-light: #fff1f2;
+    
+    --radius-xl: 20px;
+    --radius-lg: 14px;
+    --radius-md: 10px;
+    --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* FIX DOCK UNDERLINE (NO HTML CHANGE) */
-.dock a{
-  text-decoration:none;
-  color:inherit;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* CENTER CARD */
-.container{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  padding-bottom:120px;
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
 }
 
-.card{
-  width:92%;
-  max-width:650px;
-  background:#fff;
-  border-radius:18px;
-  padding:22px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.08);
+/* FIX DOCK UNDERLINE (KEEPING YOUR EXACT RULE) */
+.dock a {
+    text-decoration: none;
+    color: inherit;
 }
 
-/* TABS */
-.tabs{
-  display:flex;
-  gap:8px;
-  margin-bottom:15px;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+    padding: 20px;
 }
 
-.tab{
-  flex:1;
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  background:#e5e7eb;
-  cursor:pointer;
-  font-weight:600;
-  font-size:12px;
-  transition:0.2s;
+.card {
+    width: 100%;
+    max-width: 600px;
+    background: var(--card-bg);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-.tab.active{
-  background:#1f4fff;
-  color:white;
-  transform:translateY(-1px);
+/* MODERN TABS UI */
+.tabs {
+    display: flex;
+    gap: 6px;
+    background: #e2e8f0;
+    padding: 6px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 20px;
 }
 
-/* SECTIONS */
-.section{
-  display:none;
+.tab {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    transition: var(--transition);
 }
 
-.section.active{
-  display:block;
+.tab.active {
+    background: var(--card-bg);
+    color: var(--primary);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* INPUT */
-textarea{
-  width:100%;
-  height:90px;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #d1d5db;
-  font-size:14px;
-  outline:none;
-  resize:none;
+/* SECTION HANDLING */
+.section {
+    display: none;
+    animation: fadeIn 0.25s ease-out;
 }
 
-/* BUTTON */
-button{
-  width:100%;
-  margin-top:10px;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:#1f4fff;
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-  transition:0.2s;
+.section.active {
+    display: block;
 }
 
-button:hover{
-  background:#163be0;
+.section h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--text-main);
 }
 
-/* RESULT BOX */
-.result{
-  margin-top:10px;
-  padding:12px;
-  background:#f3f4f6;
-  border-radius:12px;
-  min-height:40px;
-  font-weight:500;
+/* FORM ELEMENTS */
+textarea {
+    width: 100%;
+    height: 110px;
+    padding: 14px;
+    border-radius: var(--radius-lg);
+    border: 1px solid #cbd5e1;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    outline: none;
+    resize: none;
+    background: #fafafa;
+    transition: var(--transition);
 }
 
-/* EMERGENCY GRID */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+textarea:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px var(--primary-light);
 }
 
-.quick{
-  padding:12px;
-  border-radius:12px;
-  background:#ffe4e6;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-  color:#9f1239;
-  transition:0.2s;
+/* ACTION BUTTON */
+.btn-primary {
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
 }
 
-.quick:hover{
-  background:#fecdd3;
-  transform:scale(1.03);
+.btn-primary:hover {
+    background: var(--primary-hover);
 }
 
-/* COPY MESSAGE */
-#copyMsg{
-  margin-top:10px;
-  font-size:13px;
-  color:#16a34a;
+/* RESULT VIEW BOX */
+.result {
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--bg-main);
+    border-radius: var(--radius-lg);
+    min-height: 50px;
+    font-size: 0.95rem;
+    border-left: 4px solid var(--primary);
+}
+
+.result-placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* AUDIO DISPLAY BADGE BUTTONS */
+.speak-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 8px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 20px;
+    background: white;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    width: auto;
+    transition: var(--transition);
+}
+
+.speak-btn:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* EMERGENCY QUICK GRIDS */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-height: 230px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.quick {
+    padding: 14px 12px;
+    border-radius: var(--radius-lg);
+    background: var(--emergency-light);
+    border: 1px solid #ffe4e6;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--emergency);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.quick:hover {
+    background: #fecdd3;
+    transform: translateY(-2px);
+}
+
+/* SYSTEM NOTIFIER SCREEN */
+#copyMsg {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: var(--radius-lg);
+    background: #f0fdf4;
+    border-left: 4px solid #16a34a;
+    font-size: 0.95rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
@@ -153,48 +248,41 @@ button:hover{
 
 <div class="card">
 
-  <!-- TABS -->
   <div class="tabs">
     <button class="tab active" onclick="openTab('en_nep', this)">English → Nepali</button>
     <button class="tab" onclick="openTab('nep_en', this)">Nepali → English</button>
-    <button class="tab" onclick="openTab('emergency', this)">Emergency</button>
+    <button class="tab" onclick="openTab('emergency', this)">Emergency Quick Phrases</button>
   </div>
 
-  <!-- EN → NEP -->
   <div id="en_nep" class="section active">
-    <textarea id="enInput" placeholder="Enter English text..."></textarea>
-    <button onclick="translateENtoNEP()">Translate</button>
-    <div class="result" id="enOutput">Result will appear here...</div>
+    <textarea id="enInput" placeholder="Type an English phrase... (e.g. hello, where is the hospital, how much)"></textarea>
+    <button class="btn-primary" onclick="translateENtoNEP()">Translate</button>
+    <div class="result" id="enOutput"><span class="result-placeholder">Result will appear here...</span></div>
   </div>
 
-  <!-- NEP → EN -->
   <div id="nep_en" class="section">
-    <textarea id="nepInput" placeholder="Enter Nepali (romanized)..."></textarea>
-    <button onclick="translateNEPtoEN()">Translate</button>
-    <div class="result" id="nepOutput">Result will appear here...</div>
+    <textarea id="nepInput" placeholder="Type Romanized Nepali phrase... (e.g. namaste, hospital kata cha, kati parcha)"></textarea>
+    <button class="btn-primary" onclick="translateNEPtoEN()">Translate</button>
+    <div class="result" id="nepOutput"><span class="result-placeholder">Result will appear here...</span></div>
   </div>
 
-  <!-- EMERGENCY -->
   <div id="emergency" class="section">
     <h3>Emergency Quick Phrases</h3>
-
     <div class="grid">
-      <button class="quick" onclick="copyText('Help me!')">Help me</button>
-      <button class="quick" onclick="copyText('Call police')">Police</button>
-      <button class="quick" onclick="copyText('I need a hospital')">Hospital</button>
-      <button class="quick" onclick="copyText('I am lost')">I am lost</button>
-      <button class="quick" onclick="copyText('Water please')">Water</button>
-      <button class="quick" onclick="copyText('Danger!')">Danger</button>
+      <button class="quick" onclick="copyText('Help me!')"><i class="ri-hand-heart-line"></i> Help me</button>
+      <button class="quick" onclick="copyText('Call police')"><i class="ri-shield-line"></i> Police</button>
+      <button class="quick" onclick="copyText('I need a hospital')"><i class="ri-hospital-line"></i> Hospital</button>
+      <button class="quick" onclick="copyText('I am lost')"><i class="ri-compass-discover-line"></i> I am lost</button>
+      <button class="quick" onclick="copyText('Water please')"><i class="ri-drop-line"></i> Water</button>
+      <button class="quick" onclick="copyText('Danger!')"><i class="ri-error-warning-line"></i> Danger</button>
     </div>
-
-    <p id="copyMsg"></p>
+    <div id="copyMsg" style="display:none;"></div>
   </div>
 
 </div>
 
 </div>
 
-<!-- DOCK (UNCHANGED EXACT STRUCTURE) -->
 <nav class="dock">
 
   <a href="index.html" class="dock-btn"><i class="ri-home-5-line"></i><span>Home</span></a>
@@ -212,7 +300,6 @@ button:hover{
 </nav>
 
 <script src="js/lang.js"></script>
-
 <script src="js/sos.js"></script>
 
 </body>

@@ -1,249 +1,416 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Emergency Hotlines</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Hotlines</title>
 
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
+    <style>
+        /* --- Modern Design System --- */
+        :root {
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            
+            /* Emergency Crimson Palette */
+            --emergency-red: #dc2626;
+            --emergency-hover: #b91c1c;
+            --emergency-light: #fee2e2;
+            
+            --radius-xl: 20px;
+            --radius-md: 12px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-body{
-    background:#fff5f5;
-    color:#222;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
 
-header{
-    background:linear-gradient(135deg,#dc2626,#991b1b);
-    color:#fff;
-    padding:40px 20px;
-    text-align:center;
-    box-shadow:0 8px 20px rgba(220,38,38,.25);
-}
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 40px;
+        }
 
-header h1{
-    font-size:2.4rem;
-    margin-bottom:10px;
-}
+        /* --- Header & Search --- */
+        header {
+            background: linear-gradient(135deg, #e11d48, #9f1239);
+            color: #ffffff;
+            padding: 50px 20px 75px 20px;
+            text-align: center;
+            position: relative;
+        }
 
-header p{
-    opacity:.9;
-}
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
 
-.container{
-    width:92%;
-    max-width:1200px;
-    margin:35px auto;
-}
+        header h1 i {
+            animation: pulse 2s infinite;
+        }
 
-.section-title{
-    color:#b91c1c;
-    margin:35px 0 18px;
-    font-size:1.5rem;
-    font-weight:bold;
-}
+        header p {
+            color: #ffe4e6;
+            font-size: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:20px;
-}
+        /* --- Global Layout --- */
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: -40px auto 0 auto; /* Pulls content up over header */
+            position: relative;
+            z-index: 10;
+        }
 
-.card{
-    background:#fff;
-    border-radius:18px;
-    border-left:6px solid #dc2626;
-    padding:20px;
-    box-shadow:0 10px 20px rgba(0,0,0,.08);
-    transition:.25s;
-}
+        /* Interactive Search Input */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 35px auto;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-md);
+        }
 
-.card:hover{
-    transform:translateY(-6px);
-}
+        .search-container i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.3rem;
+        }
 
-.card h3{
-    color:#b91c1c;
-    margin-bottom:15px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
+        .search-container input {
+            width: 100%;
+            padding: 16px 16px 16px 52px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            background-color: var(--card-bg);
+            font-size: 1.05rem;
+            color: var(--text-main);
+            outline: none;
+            transition: var(--transition);
+        }
 
-.item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px 0;
-    border-bottom:1px solid #eee;
-}
+        .search-container input:focus {
+            box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.15);
+            border-color: #e11d48;
+        }
 
-.item:last-child{
-    border:none;
-}
+        .section-title {
+            color: var(--text-main);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.label{
-    font-weight:600;
-}
+        /* --- Responsive Grid Layout --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
 
-.number{
-    background:#dc2626;
-    color:white;
-    padding:6px 14px;
-    border-radius:25px;
-    font-weight:bold;
-}
+        /* --- Cards UI --- */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(226, 232, 240, 0.7);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
 
-footer{
-    margin-top:40px;
-    text-align:center;
-    padding:20px;
-    color:#7f1d1d;
-}
-</style>
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(225, 29, 72, 0.2);
+        }
+
+        .card h3 {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .card h3 i {
+            color: var(--emergency-red);
+            background-color: var(--emergency-light);
+            padding: 8px;
+            border-radius: var(--radius-md);
+            font-size: 1.25rem;
+        }
+
+        /* --- Hotline Rows --- */
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+            transition: var(--transition);
+        }
+
+        .item:last-child {
+            border: none;
+        }
+
+        .label {
+            font-weight: 500;
+            color: #334155;
+            font-size: 0.95rem;
+            padding-right: 10px;
+        }
+
+        /* Actionable Dialer Badge */
+        .number {
+            background-color: var(--bg-main);
+            color: var(--emergency-red);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #fee2e2;
+            transition: var(--transition);
+        }
+
+        .number:hover {
+            background-color: var(--emergency-red);
+            color: #ffffff;
+            border-color: var(--emergency-red);
+            box-shadow: 0 4px 12px rgba(220, 38, 32, 0.25);
+        }
+
+        .number i {
+            font-size: 1rem;
+        }
+
+        /* --- Footer Styles --- */
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid #e2e8f0;
+            background-color: #ffffff;
+        }
+
+        /* --- Animations --- */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
 </head>
 <body>
 
 <header>
-    <h1><i class="ri-phone-fill"></i> Emergency Hotline Contacts</h1>
-    <p>Quick access to important emergency services and hospitals in Nepal.</p>
+    <h1><i class="ri-phone-fill"></i> Emergency Hotlines</h1>
+    <p>Quick access to critical emergency services and major hospitals across Nepal.</p>
 </header>
 
 <div class="container">
 
-<h2 class="section-title">Emergency Numbers</h2>
+    <div class="search-container">
+        <i class="ri-search-line"></i>
+        <input type="text" id="directorySearch" placeholder="Search departments, hospitals, or services..." onkeyup="filterDirectory()">
+    </div>
 
-<div class="grid">
+    <h2 class="section-title"><i class="ri-list-check-3"></i> Available Contacts</h2>
 
-<div class="card">
-<h3><i class="ri-alarm-warning-fill"></i> Emergency Services</h3>
+    <div class="grid">
 
-<div class="item">
-<span class="label">Police</span>
-<span class="number">100</span>
-</div>
+        <div class="card">
+            <h3><i class="ri-alarm-warning-fill"></i> Emergency Services</h3>
 
-<div class="item">
-<span class="label">Fire Department</span>
-<span class="number">101</span>
-</div>
+            <div class="item">
+                <span class="label">Police</span>
+                <a href="tel:100" class="number"><i class="ri-phone-line"></i> 100</a>
+            </div>
 
-<div class="item">
-<span class="label">Ambulance</span>
-<span class="number">102</span>
-</div>
+            <div class="item">
+                <span class="label">Fire Department</span>
+                <a href="tel:101" class="number"><i class="ri-phone-line"></i> 101</a>
+            </div>
 
-<div class="item">
-<span class="label">Child Helpline</span>
-<span class="number">1098</span>
-</div>
+            <div class="item">
+                <span class="label">Ambulance</span>
+                <a href="tel:102" class="number"><i class="ri-phone-line"></i> 102</a>
+            </div>
 
-<div class="item">
-<span class="label">Nepal Telecom Inquiry</span>
-<span class="number">197</span>
-</div>
+            <div class="item">
+                <span class="label">Child Helpline</span>
+                <a href="tel:1098" class="number"><i class="ri-phone-line"></i> 1098</a>
+            </div>
 
-</div>
+            <div class="item">
+                <span class="label">Nepal Telecom Inquiry</span>
+                <a href="tel:197" class="number"><i class="ri-phone-line"></i> 197</a>
+            </div>
+        </div>
 
-<div class="card">
-<h3><i class="ri-hospital-fill"></i> Major Hospitals</h3>
+        <div class="card">
+            <h3><i class="ri-hospital-fill"></i> Major Hospitals</h3>
 
-<div class="item">
-<span class="label">Bir Hospital</span>
-<span class="number">4221119</span>
-</div>
+            <div class="item">
+                <span class="label">Bir Hospital</span>
+                <a href="tel:4221119" class="number"><i class="ri-phone-line"></i> 4221119</a>
+            </div>
 
-<div class="item">
-<span class="label">Bir Emergency</span>
-<span class="number">4226984</span>
-</div>
+            <div class="item">
+                <span class="label">Bir Emergency</span>
+                <a href="tel:4226984" class="number"><i class="ri-phone-line"></i> 4226984</a>
+            </div>
 
-<div class="item">
-<span class="label">Patan Hospital</span>
-<span class="number">5522566</span>
-</div>
+            <div class="item">
+                <span class="label">Patan Hospital</span>
+                <a href="tel:5522566" class="number"><i class="ri-phone-line"></i> 5522566</a>
+            </div>
 
-<div class="item">
-<span class="label">Teaching Hospital</span>
-<span class="number">4412707</span>
-</div>
+            <div class="item">
+                <span class="label">Teaching Hospital (IOM)</span>
+                <a href="tel:4412707" class="number"><i class="ri-phone-line"></i> 4412707</a>
+            </div>
 
-<div class="item">
-<span class="label">Kanti Children's Hospital</span>
-<span class="number">4411134</span>
-</div>
+            <div class="item">
+                <span class="label">Kanti Children's Hospital</span>
+                <a href="tel:4411134" class="number"><i class="ri-phone-line"></i> 4411134</a>
+            </div>
+        </div>
 
-</div>
+        <div class="card">
+            <h3><i class="ri-ambulance-fill"></i> Ambulance Services</h3>
 
-<div class="card">
-<h3><i class="ri-ambulance-fill"></i> Ambulance Services</h3>
+            <div class="item">
+                <span class="label">New Road</span>
+                <a href="tel:4244121" class="number"><i class="ri-phone-line"></i> 4244121</a>
+            </div>
 
-<div class="item">
-<span class="label">New Road</span>
-<span class="number">4244121</span>
-</div>
+            <div class="item">
+                <span class="label">Model Hospital</span>
+                <a href="tel:4240805" class="number"><i class="ri-phone-line"></i> 4240805</a>
+            </div>
 
-<div class="item">
-<span class="label">Model Hospital</span>
-<span class="number">4240805</span>
-</div>
+            <div class="item">
+                <span class="label">Nepal Red Cross</span>
+                <a href="tel:4228094" class="number"><i class="ri-phone-line"></i> 4228094</a>
+            </div>
 
-<div class="item">
-<span class="label">Nepal Red Cross</span>
-<span class="number">4228094</span>
-</div>
+            <div class="item">
+                <span class="label">Paropakar</span>
+                <a href="tel:4251614" class="number"><i class="ri-phone-line"></i> 4251614</a>
+            </div>
 
-<div class="item">
-<span class="label">Paropakar</span>
-<span class="number">4251614</span>
-</div>
+            <div class="item">
+                <span class="label">Blood Bank</span>
+                <a href="tel:4225344" class="number"><i class="ri-phone-line"></i> 4225344</a>
+            </div>
+        </div>
 
-<div class="item">
-<span class="label">Blood Bank</span>
-<span class="number">4225344</span>
-</div>
+        <div class="card">
+            <h3><i class="ri-shield-cross-fill"></i> Rescue Services</h3>
 
-</div>
+            <div class="item">
+                <span class="label">Himalayan Rescue Association</span>
+                <a href="tel:4262746" class="number"><i class="ri-phone-line"></i> 4262746</a>
+            </div>
 
-<div class="card">
-<h3><i class="ri-shield-cross-fill"></i> Rescue Services</h3>
+            <div class="item">
+                <span class="label">Rescue Dog Squad (Pokhara)</span>
+                <a href="tel:061520374" class="number"><i class="ri-phone-line"></i> 061-520374</a>
+            </div>
 
-<div class="item">
-<span class="label">Himalayan Rescue Association</span>
-<span class="number">4262746</span>
-</div>
+            <div class="item">
+                <span class="label">Night Taxi Service</span>
+                <a href="tel:4244485" class="number"><i class="ri-phone-line"></i> 4244485</a>
+            </div>
 
-<div class="item">
-<span class="label">Rescue Dog Squad (Pokhara)</span>
-<span class="number">061-520374</span>
-</div>
+            <div class="item">
+                <span class="label">International Flight Info</span>
+                <a href="tel:4470311" class="number"><i class="ri-phone-line"></i> 4470311</a>
+            </div>
+        </div>
 
-<div class="item">
-<span class="label">Night Taxi Service</span>
-<span class="number">4244485</span>
-</div>
-
-<div class="item">
-<span class="label">International Flight Info</span>
-<span class="number">4470311</span>
-</div>
-
-</div>
-
-</div>
-
+    </div>
 </div>
 
 <footer>
-Emergency numbers sourced from the Qatar Embassy Nepal "Important Phones" page. Always dial your nearest emergency service in life-threatening situations.
+    Emergency numbers sourced from official listings. Always dial your nearest local emergency provider directly in highly dynamic or life-threatening scenarios.
 </footer>
+
+<script>
+    // Pure vanilla real-time contact filtering logic
+    function filterDirectory() {
+        const input = document.getElementById('directorySearch');
+        const filter = input.value.toLowerCase();
+        const items = document.getElementsByClassName('item');
+        const cards = document.getElementsByClassName('card');
+
+        // Loop through all list items, hide those that don't match the search query
+        for (let i = 0; i < items.length; i++) {
+            let label = items[i].getElementsByClassName('label')[0];
+            if (label) {
+                let textValue = label.textContent || label.innerText;
+                if (textValue.toLowerCase().indexOf(filter) > -1) {
+                    items[i].style.display = "";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+        }
+
+        // Auto-manage card visibility based on whether they contain any visible items
+        for (let j = 0; j < cards.length; j++) {
+            let visibleItems = cards[j].querySelectorAll('.item[style=""]');
+            let totalItems = cards[j].querySelectorAll('.item');
+            
+            // Checking if hidden styling elements exist explicitly
+            let hiddenCount = cards[j].querySelectorAll('.item[style="display: none;"]').length;
+            
+            if (hiddenCount === totalItems.length) {
+                cards[j].style.display = "none";
+            } else {
+                cards[j].style.display = "";
+            }
+        }
+    }
+</script>
 
 </body>
 </html>
