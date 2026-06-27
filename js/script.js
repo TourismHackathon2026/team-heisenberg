@@ -27,24 +27,83 @@ if (emergencyButton && emergencyMenu) {
 
 // ===================== OFFLINE WEATHER DATABASE =====================
 const weatherDB = {
+
   kathmandu: {
     city: "Kathmandu",
     temp: 22,
     condition: "Partly Cloudy",
-    wind: 6
+    wind: 6,
+
+    risk: "Moderate",
+    color: "#f59e0b",
+    icon: "ri-alert-line",
+    warning: "Light rain expected during the afternoon. Roads may become slippery in hilly areas."
   },
+
   pokhara: {
     city: "Pokhara",
     temp: 24,
-    condition: "Sunny",
-    wind: 4
+    condition: "Heavy Rain",
+    wind: 14,
+
+    risk: "High",
+    color: "#ef4444",
+    icon: "ri-flood-line",
+    warning: "Heavy rainfall increases the risk of flooding and landslides. Avoid trekking routes."
   },
+
   chitwan: {
     city: "Chitwan",
-    temp: 30,
-    condition: "Hot & Humid",
-    wind: 3
+    temp: 38,
+    condition: "Extreme Heat",
+    wind: 4,
+
+    risk: "High",
+    color: "#dc2626",
+    icon: "ri-sun-fill",
+    warning: "Very high temperatures. Heatstroke risk is high. Stay hydrated and avoid direct sunlight."
+  },
+
+  // HILLY REGION
+  dharan: {
+    city: "Dharan",
+    temp: 29,
+    condition: "Thunderstorms",
+    wind: 18,
+
+    risk: "High",
+    color: "#ef4444",
+    icon: "ri-thunderstorms-line",
+    warning: "Thunderstorms expected. Strong winds and lightning may disrupt travel. Avoid open areas."
+  },
+
+  // MOUNTAIN REGION
+  // MOUNTAIN REGION
+mugu: {
+    city: "Mugu",
+    temp: 7,
+    condition: "Snowfall",
+    wind: 22,
+
+    risk: "High",
+    color: "#3b82f6",
+    icon: "ri-snowy-line",
+    warning: "Snowfall and icy roads expected. Mountain roads may become icy. Carry warm clothing and avoid unnecessary travel during snowfall."
+},
+
+  // TERAI REGION
+  janakpur: {
+    city: "Janakpur",
+    temp: 40,
+    condition: "Heat Wave",
+    wind: 5,
+
+    risk: "Extreme",
+    color: "#991b1b",
+    icon: "ri-fire-fill",
+    warning: "Heat wave in effect. Avoid outdoor activity between 11 AM and 4 PM. Drink plenty of water."
   }
+
 };
 
 
@@ -52,17 +111,23 @@ const weatherDB = {
 function updateWeatherUI(cityKey) {
 
   const data = weatherDB[cityKey];
-  const cityName = document.getElementById("cityName");
-  const condition = document.getElementById("condition");
-  const temp = document.getElementById("temp");
-  const wind = document.getElementById("wind");
 
-  if (!data || !cityName || !condition || !temp || !wind) return;
+  if (!data) return;
 
-  cityName.innerText = data.city;
-  condition.innerText = data.condition;
-  temp.innerText = data.temp + "°C";
-  wind.innerText = data.wind + " km/h";
+  // Weather
+  document.getElementById("cityName").innerText = data.city;
+  document.getElementById("condition").innerText = data.condition;
+  document.getElementById("temp").innerText = data.temp + "°C";
+  document.getElementById("wind").innerText = data.wind + " km/h";
+
+  // Risk Card
+  document.getElementById("riskLevel").innerText = data.risk;
+  document.getElementById("riskLevel").style.color = data.color;
+
+  document.getElementById("riskIcon").className = data.icon;
+  document.getElementById("riskIcon").style.color = data.color;
+
+  document.getElementById("riskWarning").innerText = data.warning;
 }
 
 
@@ -115,13 +180,17 @@ async function searchPlace() {
     .bindPopup(data[0].display_name)
     .openPopup();
 
-  // 🔥 UPDATE WEATHER UI ONLY (NO ALERT)
-  const cityKey = query.toLowerCase().split(" ")[0];
-  updateWeatherUI(cityKey);
+  
+const cityKey = query.trim().toLowerCase();
+
+if (weatherDB[cityKey]) {
+    updateWeatherUI(cityKey);
 }
+
+} // <-- This closes searchPlace()
 
 
 // ===================== DEFAULT WEATHER =====================
 window.addEventListener("load", () => {
-  updateWeatherUI("kathmandu");
+    updateWeatherUI("kathmandu");
 });
